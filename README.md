@@ -1,2 +1,1 @@
 # HackerRank
-Thing
