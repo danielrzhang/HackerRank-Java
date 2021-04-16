@@ -8,36 +8,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
+
 
 public class MigratoryBirds {
 
     // Complete the migratoryBirds function below.
     static int migratoryBirds(List<Integer> arr) {
-    	Collections.sort(arr);
-    	
-    	int counter = 0;
-    	int maxCounter = 0;
-    	int mostFrequent = 0;
+    	HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    	int key = 0;
     	
     	for (int i = 0; i < arr.size(); i++) {
-    		if (i < arr.size() - 1) {
-	    		if (arr.get(i) != arr.get(i + 1)) {
-	    			if (counter > maxCounter) {
-	    				maxCounter = counter;
-	    				mostFrequent = arr.get(i);
-	    				counter = 0;
-	    			}
-	    		} else {
-	    			counter++;
-	    		}
+    		if (map.containsKey(arr.get(i))) {
+    			map.put(arr.get(i), map.get(arr.get(i)) + 1);
     		} else {
-    			
+    			map.put(arr.get(i), 1);
     		}
     	}
-    	System.out.println(maxCounter);
-    	return mostFrequent;
+    	
+    	key = Collections.max(map.entrySet(), Map.Entry.comparingByValue()).getKey();
+    	return key;
     }
 
     public static void main(String[] args) throws IOException {
