@@ -1,50 +1,97 @@
 package algorithms;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import static java.util.stream.Collectors.toList;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.IntStream;
+
+class Result12 {
+
+	/*
+	 * Complete the 'weightedUniformStrings' function below.
+	 *
+	 * The function is expected to return a STRING_ARRAY.
+	 * The function accepts following parameters:
+	 *  1. STRING s
+	 *  2. INTEGER_ARRAY queries
+	 */
+
+	public static List<String> weightedUniformStrings(String s, List<Integer> queries) {
+		
+		int counter = 0;
+		int stretchCounter = 0;
+		
+		HashSet<Integer> weights = new HashSet<Integer>();
+		
+		for (int i = 0; i < s.length(); i++) {
+			for (int j = i; j < s.length(); j++) {
+				if (s.charAt(i) == s.charAt(j)) {
+					counter += (int) (s.charAt(j)) - 96;
+					stretchCounter++;
+					weights.add(counter);
+					
+					if (j == s.length() - 1) {
+						i += stretchCounter - 1;
+						stretchCounter = 0;
+						counter = 0;
+					}
+				} else {
+					i += stretchCounter - 1;
+					stretchCounter = 0;
+					counter = 0;
+					break;
+				}
+			}
+		}
+		
+		ArrayList<String> list = new ArrayList<String>();
+		
+		for (Integer i: queries) {
+			if (weights.contains(i)) {
+				list.add("Yes");
+			} else {
+				list.add("No");
+			}
+		}
+		return list;
+	}
+}
 
 public class WeightedUniformStrings {
+	public static void main(String[] args) throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+		//        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
-    // Complete the weightedUniformStrings function below.
-    static String[] weightedUniformStrings(String s, int[] queries) {
-    	ArrayList<Integer> possibleWeights = new ArrayList<Integer>();
-    }
+		String s = bufferedReader.readLine();
 
-    private static final Scanner scanner = new Scanner(System.in);
+		int queriesCount = Integer.parseInt(bufferedReader.readLine().trim());
 
-    public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+		List<Integer> queries = IntStream.range(0, queriesCount).mapToObj(i -> {
+			try {
+				return bufferedReader.readLine().replaceAll("\\s+$", "");
+			} catch (IOException ex) {
+				throw new RuntimeException(ex);
+			}
+		})
+				.map(String::trim)
+				.map(Integer::parseInt)
+				.collect(toList());
 
-        String s = scanner.nextLine();
+		List<String> result = Result12.weightedUniformStrings(s, queries);
+		System.out.println(result);
 
-        int queriesCount = scanner.nextInt();
-        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+		//        bufferedWriter.write(
+		//            result.stream()
+		//                .collect(joining("\n"))
+		//            + "\n"
+		//        );
 
-        int[] queries = new int[queriesCount];
-
-        for (int i = 0; i < queriesCount; i++) {
-            int queriesItem = scanner.nextInt();
-            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
-            queries[i] = queriesItem;
-        }
-
-        String[] result = weightedUniformStrings(s, queries);
-
-        for (int i = 0; i < result.length; i++) {
-            bufferedWriter.write(result[i]);
-
-            if (i != result.length - 1) {
-                bufferedWriter.write("\n");
-            }
-        }
-
-        bufferedWriter.newLine();
-
-        bufferedWriter.close();
-
-        scanner.close();
-    }
+		bufferedReader.close();
+		//        bufferedWriter.close();
+	}
 }
