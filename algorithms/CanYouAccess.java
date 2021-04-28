@@ -15,7 +15,11 @@ public class CanYouAccess {
 			int num = Integer.parseInt(br.readLine().trim());
 			
 			// Must be used to hold the reference of the instance of the class Solution.Inner.Private
-			Object o = new Inner().new Private();
+			Object o;
+			
+			o = new Inner().new Private();
+			
+			System.out.println(num + " is " + ((CanYouAccess.Inner.Private) o).powerof2(num));
 
 			//Write your code here
 
