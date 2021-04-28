@@ -25,181 +25,45 @@ class Result7 {
      */
 
     public static int queensAttack(int n, int k, int r_q, int c_q, List<List<Integer>> obstacles) {
-    	int counter = 0;
-    	    	
-    	// Check Up
-    	int row = r_q;
-    	int column = c_q;
-    	boolean stop;
-    	while (row > 1) {
-    		row--;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-    		
-    		counter++;
-    		
-    	}
+    	int up = n - r_q;
+    	int down = r_q - 1;
+    	int right = n - c_q;
+    	int left = c_q - 1;
+    	int upRight = Math.min(up, right);
+    	int downRight = Math.min(right, down);
+    	int upLeft = Math.min(left, up);
+    	int downLeft = Math.min(left, down);
     	
-    	// Check Down
-    	row = r_q;
-    	column = c_q;
-    	while (row < n) {
-    		row++;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
+    	for (List<Integer> obstacle: obstacles) {
+    		if (obstacle.get(1) == c_q) {
+    			if (obstacle.get(0) < r_q) {
+    				down = Math.min(down, r_q - 1 - obstacle.get(0));
+    			} else {
+    				up = Math.min(up, obstacle.get(0) - r_q - 1);
+    			}
+    		} else if (obstacle.get(0) == r_q) {
+    			if (obstacle.get(1) < c_q) {
+    				left = Math.min(left, c_q - 1 - obstacle.get(1));
+    			} else {
+    				right = Math.min(right, obstacle.get(1) - c_q - 1);
+    			}
+    		} else if (Math.abs(obstacle.get(0) - r_q) == Math.abs(obstacle.get(1) - c_q)) {
+    			if (obstacle.get(1) > c_q) {
+    				if (obstacle.get(0) > r_q) {
+    					upRight = Math.min(upRight, obstacle.get(1) - c_q - 1);
+    				} else {
+    					downRight = Math.min(downRight, obstacle.get(1) - c_q - 1);
+    				}
+    			} else {
+    				if (obstacle.get(0) > r_q) {
+    					upLeft = Math.min(upLeft, c_q - 1 - obstacle.get(1));
+    				} else {
+    					downLeft = Math.min(downLeft, c_q - 1 - obstacle.get(1));
+    				}
     			}
     		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
     	}
-    	
-    	// Check Left
-    	row = r_q;
-    	column = c_q;
-    	while (column > 1) {
-    		column--;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	
-    	// Check right
-    	row = r_q;
-    	column = c_q;
-    	while (column < n) {
-    		column++;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	
-    	// Check up right
-    	row = r_q;
-    	column = c_q;
-    	while (row > 1 && column < n) {
-    		row--;
-    		column++;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	
-    	// Check down right
-    	row = r_q;
-    	column = c_q;
-    	while (row < n && column < n) {
-    		row++;
-    		column++;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	
-    	// Check up left
-    	row = r_q;
-    	column = c_q;
-    	while (row > 1 && column > 1) {
-    		row--;
-    		column--;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	
-    	// Check down left
-    	row = r_q;
-    	column = c_q;
-    	while (row < n && column > 1) {
-    		row++;
-    		column--;
-    		stop = false;
-    		for (List<Integer> lst: obstacles) {
-    			if (row == lst.get(0) && column == lst.get(1)) {
-    				obstacles.remove(lst);
-    				stop = true;
-    				break;
-    			}
-    		}
-    		if (stop) {
-    			break;
-    		}
-
-    		counter++;
-    		
-    	}
-    	return counter;
+    	return up + down + left + right + upRight + upLeft + downLeft + downRight;
     }
 }
 
