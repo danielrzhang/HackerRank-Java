@@ -1,7 +1,6 @@
 # HackerRank
-This repository contains some of my Java solutions for questions on HackerRank.
-
 ![](/images/HackerRank.png)
+This repository contains some of my Java solutions for questions on HackerRank.
 
 # My Page
 https://www.hackerrank.com/danielrzhang
