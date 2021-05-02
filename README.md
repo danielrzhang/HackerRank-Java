@@ -1,5 +1,5 @@
 # HackerRank
-![](/images/HackerRank.png
+![](/images/HackerRank.png)
 
 This repository contains some of my Java solutions for questions on HackerRank.
 
