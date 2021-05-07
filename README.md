@@ -1,7 +1,7 @@
 # HackerRank
 ![](/images/HackerRank.png)
 
-This repository contains some of my Java solutions for questions on HackerRank Java, Algorithms, Thirty Days of Code.
+This repository contains some of my Java solutions for questions on HackerRank Java, Algorithms, Databases, Thirty Days of Code.
 
 # My Page
 https://www.hackerrank.com/danielrzhang
